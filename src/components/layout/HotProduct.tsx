@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -11,11 +11,14 @@ const products = [
 	{ src: "/images/product1.jpg", alt: "Plant 1" },
 	{ src: "/images/product2.jpg", alt: "Plant 2" },
 	{ src: "/images/product3.jpg", alt: "Plant 3" },
-	{ src: "/images/product4.jpg", alt: "Plant 4" },
-	{ src: "/images/product5.jpg", alt: "Plant 5" },
 ];
 
 const HotProduct = () => {
+	const toAllTours = () => {
+		// Placeholder for navigation logic, e.g., router.push('/tours');
+		console.log("Navigating to all tours");
+	};
+
 	return (
 		<section className="relative w-full mt-[-10%] z-20">
 			<h2 className="text-center text-3xl font-bold text-white mb-[-4rem] z-30 relative">
@@ -23,40 +26,29 @@ const HotProduct = () => {
 			</h2>
 
 			<div className="relative px-8">
-				{/* Swiper controls */}
-				<div
-					className="cursor-pointer  swiper-button-prev-custom absolute left-[2%] top-1/2 -translate-y-1/2 z-30"
-					id="prevBtn"
-				>
-					<Leaf className="w-9 h-9  rotate-[-135deg] bg-slate-700 hover:bg-green-100 hover:text-green-600 rounded-full p-2 transition-all" />
-				</div>
-				<div
-					className="cursor-pointer swiper-button-next-custom absolute right-[2%] top-1/2 -translate-y-1/2 z-30"
-					id="nextBtn"
-				>
-					<Leaf className="w-9 h-9 rotate-[45deg] bg-slate-700 hover:bg-green-100 hover:text-green-600 rounded-full p-2 transition-all" />
-				</div>
-
 				<Swiper
 					modules={[Navigation]}
+					spaceBetween={15}
+					slidesPerView={1}
 					navigation={{
-						prevEl: "#prevBtn",
-						nextEl: "#nextBtn",
+						nextEl: ".destination-card2-next",
+						prevEl: ".destination-card2-prev",
 					}}
-					slidesPerView={3}
+					speed={2000}
+					breakpoints={{
+						480: { slidesPerView: 1 },
+						576: { slidesPerView: 2 },
+						768: { slidesPerView: 3 },
+						1024: { slidesPerView: 3 },
+					}}
 					centeredSlides={true}
 					loop={true}
-					spaceBetween={20}
-					className="group w-[90%] mx-auto"
+					className="group w-[90%] mx-auto mb-[50px]"
 				>
 					{products.map((product, idx) => (
-						<SwiperSlide key={idx}>
-							<div className="group hover:w-[50%] transition-all duration-500 ease-in-out">
-								<div
-									className={`relative mx-auto overflow-hidden rounded-xl cursor-pointer
-                    ${idx === 1 ? "h-[180px]" : "h-[280px]"}
-                    group-hover:scale-105 transition-all`}
-								>
+						<SwiperSlide key={idx} className={idx % 2 !== 0 ? "mt-[50px]" : ""}>
+							<div className="transition-all duration-500 ease-in-out aspect-[4/3]">
+								<div className="relative overflow-hidden rounded-xl">
 									<Image
 										src={product.src}
 										alt={product.alt}
@@ -68,6 +60,34 @@ const HotProduct = () => {
 						</SwiperSlide>
 					))}
 				</Swiper>
+
+				{/* Swiper controls */}
+				<div className="flex items-center justify-between px-8">
+					<div className="flex items-center gap-5 max-w-[162px] w-full">
+						<div
+							className="slider-btn destination-card2-prev swiper-button-prev text-primary flex items-center gap-2 cursor-pointer"
+							role="button"
+							aria-label="Previous slide"
+						>
+							<Leaf className="w-6 h-6 rotate-[-135deg]" />
+							<span className="uppercase">PREV</span>
+						</div>
+						<div
+							className="slider-btn destination-card2-next swiper-button-next text-primary flex items-center gap-2 cursor-pointer"
+							role="button"
+							aria-label="Next slide"
+						>
+							<span className="uppercase">NEXT</span>
+							<Leaf className="w-6 h-6 rotate-[45deg]" />
+						</div>
+					</div>
+					<button
+						onClick={() => toAllTours()}
+						className="secondary-btn2 text-white"
+					>
+						View All Tours
+					</button>
+				</div>
 			</div>
 		</section>
 	);

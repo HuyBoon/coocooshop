@@ -1,56 +1,34 @@
 "use client";
 import React from "react";
-import Slider from "react-slick";
-
-const bannerImages = ["/banner.jpg"];
+import Image from "next/image";
 
 const Banner = () => {
-	const settings = {
-		dots: true,
-		infinite: true,
-		speed: 700,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		autoplay: true,
-		autoplaySpeed: 4000,
-		arrows: false,
-		pauseOnHover: false,
-	};
-
 	return (
 		<section className="relative w-full h-auto">
-			<Slider {...settings} className="">
-				{bannerImages.map((img, index) => (
-					<div
-						key={index}
-						className="h-screen relative flex items-center justify-center text-center text-white"
-					>
-						<div
-							className="absolute inset-0 bg-cover bg-center transition-all duration-500"
-							style={{ backgroundImage: `url(${img})` }}
-						/>
-						<div className="absolute inset-0 bg-black/40" />
-						{/* <div className="relative z-10 max-w-3xl mx-auto px-4">
-							<span className="bg-yellow-400 text-green-900 px-4 py-1 rounded-full text-sm font-semibold">
-								New York
-							</span>
-							<h1 className="mt-4 text-4xl md:text-5xl font-bold">
-								Let’s Explore Your{" "}
-								<span className="text-green-400 underline">Family</span> Trip.
-							</h1>
-							<p className="mt-6 text-lg">
-								Discover the best tours, hotels, and experiences for your next
-								vacation.
-							</p>
-							<div className="mt-8">
-								<button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold">
-									Explore Now
-								</button>
-							</div>
-						</div> */}
-					</div>
-				))}
-			</Slider>
+			{/* Desktop Image */}
+			<Image
+				src="/banner.svg"
+				alt="Desktop Banner"
+				width={1920}
+				height={800}
+				className="hidden md:block w-full h-[800px] object-cover"
+				priority
+			/>
+			{/* Mobile Image */}
+			<Image
+				src="/bannerdienthoai.svg"
+				alt="Mobile Banner"
+				width={600}
+				height={600}
+				className="block md:hidden w-full h-[600px] object-cover"
+				priority
+			/>
+			{/* Text Overlay */}
+			<div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 text-center">
+				<h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black drop-shadow-lg">
+					behind our PLANT
+				</h2>
+			</div>
 		</section>
 	);
 };
