@@ -2,20 +2,23 @@
 
 :root {
 	--font-lora: "Lora", serif;
+	--font-satify: "Satisfy", cursive;
 	--white-color: #fff;
 	--black-color: #000;
 	--title-color: #100c08;
 	--text-color: #787878;
 	--primary-color: #63ab45;
+	--primary-color2: #18392b;
 }
 
 @theme font {
 	--font-lora: var(--font-lora);
+	--font-satify: var(--font-satify);
 }
 
 @theme {
 	--color-primary: var(--primary-color);
-	--color-primary-2: var(--primary-color2);
+	--color-secondary: var(--primary-color2);
 	--color-title: #100c08;
 	--color-black: #000;
 	--color-bg-btn-hover: black;
@@ -23,11 +26,6 @@
 	--color-header-light: rgba(255, 255, 255, 0.2);
 	--color-header-dark: rgba(0, 0, 0, 0.8);
 	--color-text-color: var(--text-color);
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-	}
 }
 
 body {
@@ -39,21 +37,6 @@ body {
 	font-weight: 400;
 	line-height: 30px;
 }
-/* globals.css hoặc app/globals.css */
-
-/* Ẩn nút mặc định của Swiper */
-.swiper-button-prev,
-.swiper-button-next {
-	color: transparent;
-	background: none;
-	border: none;
-}
-
-/* Xoá dấu ::after mặc định của Swiper (mũi tên) */
-.swiper-button-next,
-.swiper-button-prev {
-	display: none !important;
-}
 
 .line-clamp-2 {
 	min-height: 3.2rem;
@@ -64,7 +47,9 @@ body {
 	text-overflow: ellipsis;
 }
 
-/*--------------------------------------- KeyFrames-------------------------------------------- */
+button {
+	cursor: pointer;
+}
 
 @keyframes shineEffect {
 	0% {

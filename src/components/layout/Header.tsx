@@ -46,8 +46,8 @@ export default function Header() {
 			}`}
 		>
 			<div
-				className={`w-[96%] h-[64px] px-[20px] xl:px-[2%] mx-auto flex items-center justify-between rounded-4xl transition-all duration-800 border border-white-15 backdrop-blur-[1.5px] ${
-					navbar ? "bg-header-dark" : "bg-header-light"
+				className={`w-[96%] h-[64px] px-[20px] xl:px-[2%] mx-auto flex items-center justify-between rounded-4xl transition-all ${
+					navbar ? "bg-header-dark   backdrop-blur-[1.5px]" : "bg-transparent"
 				}`}
 			>
 				{/* Logo */}
@@ -55,8 +55,7 @@ export default function Header() {
 					href="/"
 					className="flex items-center gap-2 text-xl font-bold text-primary"
 				>
-					<Sprout size={30} className="text-primary" />
-					<h1 className="font-lora text-white">COO COO</h1>
+					<TreePalm size={30} className="text-primary" />
 				</Link>
 
 				{/* Desktop Nav */}
@@ -65,12 +64,12 @@ export default function Header() {
 						<Link
 							key={link.label}
 							href={link.href}
-							className={`hover:text-primary transition-colors uppercase text-[14px] ${
+							className={`hover:text-primary transition-colors uppercase text-base font-medium px-[20px] py-[5px] rounded-2xl bg-gradient-to-b from-[#18392b] to-[#212224] border border-white ${
 								pathname === link.href
 									? "text-primary"
 									: navbar
 									? "text-white"
-									: "text-black"
+									: "text-white"
 							}`}
 						>
 							{link.label}
@@ -83,14 +82,18 @@ export default function Header() {
 					<div className="h-full flex items-center px-4">
 						<Search
 							size={25}
-							className="text-white cursor-pointer hover:text-primary"
+							className={` cursor-pointer hover:text-primary ${
+								navbar ? "text-white" : "text-black"
+							}`}
 							onClick={() => setSidebar(!sidebar)}
 						/>
 					</div>
 					<div className="h-full flex items-center">
 						<User
 							size={25}
-							className="text-white cursor-pointer hover:text-primary"
+							className={` cursor-pointer hover:text-primary ${
+								navbar ? "text-white" : "text-black"
+							}`}
 							onClick={() => setModalLogin(!modalLogin)}
 						/>
 					</div>

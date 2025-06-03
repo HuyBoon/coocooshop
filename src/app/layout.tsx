@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import { Lora, Satisfy } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/components/AppContext";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
 	title: "COOCOO SHOP",
@@ -14,6 +16,13 @@ const lora = Lora({
 	display: "swap",
 });
 
+const satify = Satisfy({
+	subsets: ["latin"],
+	weight: ["400"],
+	variable: "--font-satify",
+	display: "swap",
+});
+
 export default function RootLayout({
 	children,
 }: Readonly<{
@@ -21,7 +30,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${lora.variable}  antialiased`}>{children}</body>
+			<body className={`${lora.variable}  antialiased`}>
+				<AppProvider>{children}</AppProvider>
+				<Toaster richColors position="top-right" />
+			</body>
 		</html>
 	);
 }

@@ -5,6 +5,7 @@ import Link from "next/link";
 import HotProduct from "@/components/layout/HotProduct";
 import Header from "@/components/layout/Header";
 import Banner from "@/components/layout/Banner";
+import GreenSlogan from "@/components/layout/GreenSlogan";
 
 export default function Home() {
 	return (
@@ -12,6 +13,7 @@ export default function Home() {
 			<Header />
 			<Banner />
 			<HotProduct />
+			<GreenSlogan />
 		</>
 	);
 }

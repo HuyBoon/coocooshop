@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -11,81 +11,94 @@ const products = [
 	{ src: "/images/product1.jpg", alt: "Plant 1" },
 	{ src: "/images/product2.jpg", alt: "Plant 2" },
 	{ src: "/images/product3.jpg", alt: "Plant 3" },
+	{ src: "/images/product2.jpg", alt: "Plant 2" },
+	{ src: "/images/product3.jpg", alt: "Plant 3" },
 ];
 
 const HotProduct = () => {
-	const toAllTours = () => {
-		// Placeholder for navigation logic, e.g., router.push('/tours');
-		console.log("Navigating to all tours");
-	};
+	const [activeIndex, setActiveIndex] = useState(1);
+	const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
 	return (
-		<section className="relative w-full mt-[-10%] z-20">
-			<h2 className="text-center text-3xl font-bold text-white mb-[-4rem] z-30 relative">
-				PRODUCT
-			</h2>
+		<section className="relative container w-full mx-auto mt-[-10%] z-20">
+			{/* Title */}
+			<div className="absolute top-[-3%] left-1/2 transform -translate-x-1/2 text-center px-[40px] py-[20px] rounded-2xl bg-gradient-to-b from-[#18392b] to-[#212224]  border border-white z-30">
+				<h1 className="text-white text-[50px] font-bold">PRODUCT</h1>
+			</div>
 
-			<div className="relative px-8">
+			<div className="relative w-full px-3 overflow-visible">
 				<Swiper
+					onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
 					modules={[Navigation]}
-					spaceBetween={15}
 					slidesPerView={1}
+					centeredSlides
+					loop
 					navigation={{
-						nextEl: ".destination-card2-next",
-						prevEl: ".destination-card2-prev",
+						nextEl: ".card2-next",
+						prevEl: ".card2-prev",
 					}}
-					speed={2000}
+					speed={1500}
+					spaceBetween={15}
 					breakpoints={{
 						480: { slidesPerView: 1 },
-						576: { slidesPerView: 2 },
 						768: { slidesPerView: 3 },
-						1024: { slidesPerView: 3 },
 					}}
-					centeredSlides={true}
-					loop={true}
-					className="group w-[90%] mx-auto mb-[50px]"
+					className="w-[85%] mx-auto mb-[50px]"
 				>
-					{products.map((product, idx) => (
-						<SwiperSlide key={idx} className={idx % 2 !== 0 ? "mt-[50px]" : ""}>
-							<div className="transition-all duration-500 ease-in-out aspect-[4/3]">
-								<div className="relative overflow-hidden rounded-xl">
-									<Image
-										src={product.src}
-										alt={product.alt}
-										fill
-										className="object-cover rounded-xl"
-									/>
+					{products.map((product, idx) => {
+						const isActive = idx === activeIndex;
+						const isHovered = idx === hoveredIndex;
+						const isOtherHovered = hoveredIndex !== null && !isHovered;
+
+						return (
+							<SwiperSlide key={idx}>
+								<div
+									className={`group relative h-full transition-all duration-500 ease-in-out`}
+									onMouseEnter={() => setHoveredIndex(idx)}
+									onMouseLeave={() => setHoveredIndex(null)}
+									style={{
+										transition: "flex 0.5s ease",
+										display: "flex",
+										flexDirection: "column",
+										flex: hoveredIndex === null ? 1 : isHovered ? 2 : 1, // hovered slide gets more flex
+									}}
+								>
+									<div
+										className={`aspect-[3/4] overflow-hidden rounded-2xl border border-white transition-all duration-500 ${
+											isActive ? "mt-[80px]" : "mt-0"
+										}`}
+									>
+										<Image
+											src={product.src}
+											alt={product.alt}
+											width={800}
+											height={600}
+											className="object-cover rounded-2xl w-full h-full"
+										/>
+									</div>
 								</div>
-							</div>
-						</SwiperSlide>
-					))}
+							</SwiperSlide>
+						);
+					})}
 				</Swiper>
 
-				{/* Swiper controls */}
-				<div className="flex items-center justify-between px-8">
-					<div className="flex items-center gap-5 max-w-[162px] w-full">
-						<div
-							className="slider-btn destination-card2-prev swiper-button-prev text-primary flex items-center gap-2 cursor-pointer"
-							role="button"
-							aria-label="Previous slide"
-						>
-							<Leaf className="w-6 h-6 rotate-[-135deg]" />
-							<span className="uppercase">PREV</span>
-						</div>
-						<div
-							className="slider-btn destination-card2-next swiper-button-next text-primary flex items-center gap-2 cursor-pointer"
-							role="button"
-							aria-label="Next slide"
-						>
-							<span className="uppercase">NEXT</span>
-							<Leaf className="w-6 h-6 rotate-[45deg]" />
-						</div>
-					</div>
+				{/* Prev Button */}
+				<div className="absolute top-1/2 left-[15px] -translate-y-1/2 z-10">
 					<button
-						onClick={() => toAllTours()}
-						className="secondary-btn2 text-white"
+						className="card2-prev bg-white cursor-pointer shadow-lg w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#e98585] hover:text-white transition-all duration-300"
+						aria-label="Previous slide"
 					>
-						View All Tours
+						<Leaf className="w-6 h-6 rotate-[-135deg] text-primary" />
+					</button>
+				</div>
+
+				{/* Next Button */}
+				<div className="absolute top-1/2 right-[15px] -translate-y-1/2 z-10">
+					<button
+						className="card2-next bg-white cursor-pointer shadow-lg w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#e98585] hover:text-white transition-all duration-300"
+						aria-label="Next slide"
+					>
+						<Leaf className="w-6 h-6 rotate-[45deg] text-primary" />
 					</button>
 				</div>
 			</div>
