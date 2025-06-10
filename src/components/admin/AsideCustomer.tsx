@@ -71,6 +71,16 @@ export default function AsideCustomer({
 			url: "/admin/manageblogs",
 			icon: <NotebookPen size={20} />,
 			label: "Blogs",
+			submenu: [
+				{
+					url: "/admin/manageblogs/category",
+					label: "Categories",
+				},
+				{
+					url: "/admin/manageblogs/blogs",
+					label: "BlogPost",
+				},
+			],
 		},
 
 		{
@@ -142,9 +152,8 @@ export default function AsideCustomer({
 					)}
 				</span>
 			</div>
-
 			{/* Navigation menu */}
-			<div className="flex-grow h-[calc(100vh-100px)] mt-2 overflow-y-auto">
+			<div className="flex-grow h-[calc(100vh-130px)] mt-2 overflow-y-auto">
 				<ul className="space-y-1 px-2">
 					{navLinks.map((item) => {
 						const isItemActive = isActive(item.url);
@@ -235,11 +244,10 @@ export default function AsideCustomer({
 					})}
 				</ul>
 			</div>
-
 			{/* Footer top bar */}
-			<div className="px-3 py-3 border-t border-slate-200 ">
+			<div className="px-4 border-t border-slate-200 ">
 				<motion.h4
-					className="text-center font-bold text-sm text-secondary "
+					className="text-center font-bold text-sm text-secondary pt-4 "
 					variants={textVariants}
 					transition={{ duration: animationDuration }}
 				>

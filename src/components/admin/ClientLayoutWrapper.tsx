@@ -21,7 +21,7 @@ export default function ClientLayoutWrapper({
 			<main
 				className={`transition-all duration-300 ${
 					collapsed ? "ml-16" : "ml-64"
-				} pt-20  min-h-screen`}
+				} pt-[64px]  min-h-screen`}
 			>
 				{children}
 			</main>

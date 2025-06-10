@@ -1,21 +1,24 @@
 import { model, models, Schema, Document, Types } from "mongoose";
 
-// Interface cho Product document
+// Interface for Product document
 export interface IProduct extends Document {
     name: string;
     slug: string;
     description?: string;
     price: number;
+    discountPrice?: number;
     stock: number;
+    thumbnail: { url: string; public_id: string } | null;
     images: { url: string; public_id: string }[];
     categories: Types.ObjectId[];
-    tags: string[]; // Thêm tags để hỗ trợ lọc chi tiết
+    tags: string[];
     attributes?: {
         height?: string;
         careLevel?: "easy" | "medium" | "hard";
         lightRequirement?: "low" | "medium" | "high";
         petFriendly?: boolean;
-    }; // Thuộc tính bổ sung
+    };
+    details: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -45,10 +48,24 @@ const ProductSchema = new Schema<IProduct>(
             required: [true, "Giá sản phẩm là bắt buộc"],
             min: [0, "Giá sản phẩm không được nhỏ hơn 0"],
         },
+        discountPrice: {
+            type: Number,
+            min: [0, "Giá khuyến mãi không được nhỏ hơn 0"],
+            validate: {
+                validator: function (this: IProduct, value: number | undefined) {
+                    return value === undefined || value < this.price;
+                },
+                message: "Giá khuyến mãi phải nhỏ hơn giá gốc",
+            },
+        },
         stock: {
             type: Number,
             required: [true, "Số lượng tồn kho là bắt buộc"],
             min: [0, "Số lượng tồn kho không được nhỏ hơn 0"],
+        },
+        thumbnail: {
+            url: { type: String, required: false },
+            public_id: { type: String, required: false },
         },
         images: [
             {
@@ -82,13 +99,19 @@ const ProductSchema = new Schema<IProduct>(
             lightRequirement: { type: String, enum: ["low", "medium", "high"] },
             petFriendly: { type: Boolean, default: false },
         },
+        details: {
+            type: String,
+            trim: true,
+            maxlength: [5000, "Chi tiết sản phẩm không được vượt quá 5000 ký tự"],
+            default: "",
+        },
     },
     {
         timestamps: true,
     }
 );
 
-// Index để tối ưu tìm kiếm
-ProductSchema.index({ name: "text", slug: "text", tags: "text" });
+// Index for optimized search
+ProductSchema.index({ name: "text", slug: "text", tags: "text", details: "text" });
 
 export const Product = models?.Product || model<IProduct>("Product", ProductSchema);

@@ -36,7 +36,7 @@ export default function AdminProductCategory({
 	const [thumbnailPublicId, setThumbnailPublicId] = useState<string | null>(
 		null
 	);
-	const [hasEditedSlug, setHasEditedSlug] = useState(false);
+
 	const [parentCategories, setParentCategories] = useState<Category[]>([]);
 
 	const {
@@ -64,7 +64,7 @@ export default function AdminProductCategory({
 		const fetchParentCategories = async () => {
 			try {
 				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_API_URL}/api/admin/category?page=1&limit=100`,
+					`${process.env.NEXT_PUBLIC_API_URL}/api/admincategory?page=1&limit=100`,
 					{ cache: "no-store" }
 				);
 				const data = await response.json();
@@ -85,13 +85,11 @@ export default function AdminProductCategory({
 		fetchParentCategories();
 	}, [category?._id]);
 
-	// Auto-generate slug from name
 	useEffect(() => {
-		if (name && !hasEditedSlug) {
+		if (name) {
 			setValue("slug", generateSlug(name));
 		}
-	}, [name, setValue, hasEditedSlug]);
-
+	}, [name, setValue]);
 	// Initialize form with category data
 	useEffect(() => {
 		if (category) {
@@ -104,7 +102,7 @@ export default function AdminProductCategory({
 					type: category.type || "plant_type",
 					parent: category.parent || "",
 				});
-				setHasEditedSlug(!!category.slug);
+
 				if (category.thumbnail?.url) {
 					setThumbnailPublicId(category.thumbnail.public_id || "initial");
 				}
@@ -133,7 +131,7 @@ export default function AdminProductCategory({
 
 		try {
 			const response = await fetch(
-				`${process.env.NEXT_PUBLIC_API_URL}/api/deleteImages`,
+				`${process.env.NEXT_PUBLIC_API_URL}/api/admin/deleteImages`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -159,7 +157,7 @@ export default function AdminProductCategory({
 		if (thumbnailPublicId && thumbnailPublicId !== "initial") {
 			try {
 				const response = await fetch(
-					`${process.env.NEXT_PUBLIC_API_URL}/api/deleteImages`,
+					`${process.env.NEXT_PUBLIC_API_URL}/api/admin/deleteImages`,
 					{
 						method: "POST",
 						headers: { "Content-Type": "application/json" },
@@ -199,8 +197,8 @@ export default function AdminProductCategory({
 
 			const method = category ? "PUT" : "POST";
 			const url = category
-				? `${process.env.NEXT_PUBLIC_API_URL}/api/admin/category/${category._id}`
-				: `${process.env.NEXT_PUBLIC_API_URL}/api/admin/category`;
+				? `${process.env.NEXT_PUBLIC_API_URL}/api/admincategory/${category._id}`
+				: `${process.env.NEXT_PUBLIC_API_URL}/api/admincategory`;
 
 			const categoryRes = await fetch(url, {
 				method,
@@ -225,12 +223,7 @@ export default function AdminProductCategory({
 
 	return (
 		<div className="shadow-xl p-8 mx-auto  bg-white rounded-lg">
-			<div className="mb-4 flex justify-between items-center">
-				<h2 className="text-xl font-bold">
-					{category ? "Chỉnh sửa danh mục" : "Tạo danh mục"}
-				</h2>
-			</div>
-			<form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+			<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 text-sm">
 				{/* Tên danh mục */}
 				<div className="space-y-1">
 					<label className="block font-medium text-gray-700">
@@ -259,30 +252,11 @@ export default function AdminProductCategory({
 
 				{/* Slug */}
 				<div className="space-y-1">
-					<label className="block font-medium text-gray-700">Slug</label>
 					<Controller
 						name="slug"
 						control={control}
-						rules={{
-							required: "Slug là bắt buộc",
-							pattern: {
-								value: /^[a-z0-9-]+$/,
-								message: "Slug chỉ chứa chữ thường, số và dấu gạch ngang",
-							},
-						}}
-						render={({ field }) => (
-							<input
-								{...field}
-								value={field.value || ""}
-								readOnly
-								className="w-full px-4 py-2 border border-gray-300 rounded-md bg-gray-100 cursor-not-allowed"
-								placeholder="Slug (tự động tạo)"
-							/>
-						)}
+						render={({ field }) => <input type="hidden" {...field} />}
 					/>
-					{errors.slug && (
-						<p className="text-red-500 text-sm">{errors.slug.message}</p>
-					)}
 				</div>
 
 				{/* Loại danh mục */}

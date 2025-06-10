@@ -20,7 +20,7 @@ const AdminHeader = ({ collapsed }: { collapsed: boolean }) => {
 	};
 	return (
 		<header
-			className={`fixed top-0 z-30 h-16 px-4 flex items-center justify-between shadow-sm transition-all duration-300
+			className={`fixed top-0 z-[50] h-16 px-4 bg-white flex items-center justify-between shadow-sm transition-all duration-300
 			bg-light  border-b border-slate-200  text-dark ${asideWidth}`}
 		>
 			{/* Search */}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useCallback } from "react";
@@ -7,8 +8,7 @@ interface Category {
     _id: string;
     name: string;
     slug: string;
-    thumbnail: { url: string; public_id: string };
-    type: string;
+    description?: string;
 }
 
 interface Pagination {
@@ -18,7 +18,7 @@ interface Pagination {
     pageSize: number;
 }
 
-interface UseProductCategoriesReturn {
+interface UseBlogCategoriesReturn {
     categories: Category[];
     pagination: Pagination;
     loading: boolean;
@@ -26,7 +26,7 @@ interface UseProductCategoriesReturn {
     handlePageChange: (newPage: number) => void;
 }
 
-export const useProductCategories = (
+export const useBlogCategories = (
     apiUrl: string,
     initialCategories: Category[] = [],
     initialPagination: Pagination = {
@@ -35,7 +35,7 @@ export const useProductCategories = (
         currentPage: 1,
         pageSize: 10,
     }
-): UseProductCategoriesReturn => {
+): UseBlogCategoriesReturn => {
     const [categories, setCategories] = useState<Category[]>(initialCategories);
     const [pagination, setPagination] = useState<Pagination>(initialPagination);
     const [loading, setLoading] = useState(false);
@@ -45,11 +45,11 @@ export const useProductCategories = (
             setLoading(true);
             try {
                 const res = await fetch(
-                    `${apiUrl}/api/admincategory?page=${page}&limit=${limit}`,
+                    `${apiUrl}/api/adminblogcategory?page=${page}&limit=${limit}`,
                     { cache: "no-store" }
                 );
                 if (!res.ok) {
-                    throw new Error(`Failed to fetch product categories: ${res.statusText}`);
+                    throw new Error(`Failed to fetch blog categories: ${res.statusText}`);
                 }
                 const data = await res.json();
                 if (data.success) {
@@ -74,7 +74,7 @@ export const useProductCategories = (
             if (!confirm("Bạn có chắc chắn muốn xóa danh mục này?")) return;
 
             try {
-                const res = await fetch(`${apiUrl}/api/admincategory/${id}`, {
+                const res = await fetch(`${apiUrl}/api/adminblogcategory/${id}`, {
                     method: "DELETE",
                 });
 

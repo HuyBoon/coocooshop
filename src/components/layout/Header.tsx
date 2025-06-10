@@ -78,22 +78,18 @@ export default function Header() {
 				</nav>
 
 				{/* Right placeholder */}
-				<div className="h-16 flex items-center justify-items-end">
-					<div className="h-full flex items-center px-4">
+				<div className=" flex items-center justify-between gap-4 px-[20px] py-[5px] rounded-2xl bg-gradient-to-b from-[#18392b] to-[#212224] border border-white">
+					<div className=" flex items-center">
 						<Search
 							size={25}
-							className={` cursor-pointer hover:text-primary ${
-								navbar ? "text-white" : "text-black"
-							}`}
+							className="cursor-pointer hover:text-primary text-white"
 							onClick={() => setSidebar(!sidebar)}
 						/>
 					</div>
-					<div className="h-full flex items-center">
+					<div className="flex items-center">
 						<User
 							size={25}
-							className={` cursor-pointer hover:text-primary ${
-								navbar ? "text-white" : "text-black"
-							}`}
+							className="cursor-pointer hover:text-primary text-white"
 							onClick={() => setModalLogin(!modalLogin)}
 						/>
 					</div>

@@ -58,7 +58,6 @@ const ProductCategorySchema = new Schema<IProductCategory>(
     }
 );
 
-// Index để tối ưu tìm kiếm
 ProductCategorySchema.index({ name: "text", slug: "text", type: 1 });
 
 export const ProductCategory =

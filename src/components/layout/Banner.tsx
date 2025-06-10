@@ -27,11 +27,11 @@ const Banner = () => {
 				/>
 			</div>
 			{/* Text Overlay */}
-			{/* <div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 text-center">
+			<div className="absolute top-[20%] left-1/2 transform -translate-x-1/2 text-center">
 				<h2 className="text-4xl font-satify md:text-6xl lg:text-7xl font-bold text-slate-500 drop-shadow-lg">
 					CooCoo
 				</h2>
-			</div> */}
+			</div>
 		</section>
 	);
 };
