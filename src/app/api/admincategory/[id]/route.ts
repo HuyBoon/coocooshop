@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { ProductCategory } from "@/models/ProductCategory";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const category = await ProductCategory.findById(params.id);
+        const { id } = await context.params;
+
+        const category = await ProductCategory.findById(id);
         if (!category) {
             return NextResponse.json({ success: false, error: "Category not found" }, { status: 404 });
         }
@@ -15,11 +17,13 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const body = await request.json();
-        const category = await ProductCategory.findByIdAndUpdate(params.id, body, { new: true });
+        const { id } = await context.params;
+
+        const body = await req.json();
+        const category = await ProductCategory.findByIdAndUpdate(id, body, { new: true });
         if (!category) {
             return NextResponse.json({ success: false, error: "Category not found" }, { status: 404 });
         }
@@ -29,10 +33,12 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const category = await ProductCategory.findByIdAndDelete(params.id);
+        const { id } = await context.params;
+
+        const category = await ProductCategory.findByIdAndDelete(id);
         if (!category) {
             return NextResponse.json({ success: false, error: "Category not found" }, { status: 404 });
         }

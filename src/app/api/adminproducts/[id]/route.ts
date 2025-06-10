@@ -1,11 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { dbConnect } from "@/libs/dbConnect";
 import { Product } from "@/models/Product";
 import "@/models/ProductCategory";
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const product = await Product.findById(params.id)
+        const { id } = await context.params;
+
+        const product = await Product.findById(id)
             .populate("categories", "name")
             .lean();
         if (!product) {
@@ -23,11 +25,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 }
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const body = await request.json();
-        const product = await Product.findByIdAndUpdate(params.id, body, {
+        const { id } = await context.params;
+        const body = await req.json();
+        const product = await Product.findByIdAndUpdate(id, body, {
             new: true,
             runValidators: true,
         });
@@ -46,10 +49,11 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     }
 }
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await dbConnect();
-        const product = await Product.findByIdAndDelete(params.id);
+        const { id } = await context.params;
+        const product = await Product.findByIdAndDelete(id);
         if (!product) {
             return NextResponse.json(
                 { success: false, error: "Sản phẩm không tồn tại" },

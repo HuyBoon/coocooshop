@@ -55,7 +55,13 @@ export default function Header() {
 					href="/"
 					className="flex items-center gap-2 text-xl font-bold text-primary"
 				>
-					<TreePalm size={30} className="text-primary" />
+					<Image
+						src={"/CooCooPlants.png"}
+						alt="coocooplant logo"
+						width={120}
+						height={80}
+						className="object-cover"
+					/>
 				</Link>
 
 				{/* Desktop Nav */}

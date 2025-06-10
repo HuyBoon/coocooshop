@@ -28,14 +28,21 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
             );
         }
 
+        // Ensure blog is not an array before accessing _id
+        if (Array.isArray(blog)) {
+            return NextResponse.json(
+                { success: false, error: "Unexpected response: blog is an array" },
+                { status: 500 }
+            );
+        }
         return NextResponse.json({
             success: true,
             blog: {
                 ...blog,
-                _id: blog._id.toString(),
+                _id: (blog as any)._id?.toString?.() ?? "",
                 category: {
-                    _id: blog.category?._id?.toString() ?? "",
-                    name: blog.category?.name ?? "",
+                    _id: (blog as any).category?._id?.toString() ?? "",
+                    name: (blog as any).category?.name ?? "",
                 },
             },
         });
@@ -97,14 +104,20 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
             );
         }
 
+        if (Array.isArray(blog)) {
+            return NextResponse.json(
+                { success: false, error: "Unexpected response: blog is an array" },
+                { status: 500 }
+            );
+        }
         return NextResponse.json({
             success: true,
             blog: {
                 ...blog,
-                _id: blog._id.toString(),
+                _id: (blog as any)._id?.toString?.() ?? "",
                 category: {
-                    _id: blog.category?._id?.toString() ?? "",
-                    name: blog.category?.name ?? "",
+                    _id: (blog as any).category?._id?.toString() ?? "",
+                    name: (blog as any).category?.name ?? "",
                 },
             },
         });

@@ -27,31 +27,31 @@ type PopulatedCategory = {
 async function fetchBlog(id: string): Promise<BlogData | null> {
 	try {
 		await dbConnect();
-		const blog = await Blog.findById(id)
+		const blogDoc = await Blog.findById(id)
 			.populate("category", "name")
 			.lean()
 			.select("-__v -createdAt -updatedAt");
 
-		if (!blog) {
+		if (!blogDoc || Array.isArray(blogDoc)) {
 			console.error("Blog not found");
 			return null;
 		}
 
-		const category = blog.category as PopulatedCategory | undefined;
+		const category = blogDoc.category as PopulatedCategory | undefined;
 
 		return {
-			_id: blog._id?.toString() ?? "",
-			title: blog.title ?? "",
-			slug: blog.slug ?? "",
-			content: blog.content ?? "",
-			thumbnail: blog.thumbnail ?? "",
+			_id: blogDoc._id?.toString() ?? "",
+			title: blogDoc.title ?? "",
+			slug: blogDoc.slug ?? "",
+			content: blogDoc.content ?? "",
+			thumbnail: blogDoc.thumbnail ?? "",
 			category: category?._id?.toString() ?? "",
-			tags: Array.isArray(blog.tags) ? blog.tags : [],
-			author: blog.author ?? "",
-			publishedDate: blog.publishedDate,
-			timeRead: blog.timeRead ?? "",
-			status: blog.status ?? "draft",
-			metaDescription: blog.metaDescription ?? "",
+			tags: Array.isArray(blogDoc.tags) ? blogDoc.tags : [],
+			author: blogDoc.author ?? "",
+			publishedDate: blogDoc.publishedDate,
+			timeRead: blogDoc.timeRead ?? "",
+			status: blogDoc.status ?? "draft",
+			metaDescription: blogDoc.metaDescription ?? "",
 		};
 	} catch (error) {
 		console.error("Server fetchBlog error:", error);

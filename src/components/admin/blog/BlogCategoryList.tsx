@@ -64,7 +64,7 @@ const BlogCategoryList: React.FC<BlogCategoryListProps> = ({
 									<td className="border p-3">
 										<div className="flex items-center justify-center gap-2">
 											<Link
-												href={`/admin/manageblogs/categories/edit/${category._id}`}
+												href={`/admin/manageblogs/category/edit/${category._id}`}
 												className="flex items-center justify-center"
 											>
 												<button
