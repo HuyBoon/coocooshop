@@ -4,12 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
-	CircleUser,
-	LayoutGrid,
-	Plane,
+
 	Search,
-	Sprout,
-	TreePalm,
+	
 	User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";

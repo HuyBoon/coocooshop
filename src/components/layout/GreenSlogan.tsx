@@ -9,7 +9,7 @@ export default function GreenSlogan() {
 				<Image
 					src="/separate.png"
 					alt="Potted plant"
-					width={1920}
+					width={1900}
 					height={1080}
 					className="object-cover"
 				/>

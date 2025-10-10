@@ -88,7 +88,14 @@ const HotProduct = () => {
 						className="card2-prev bg-white cursor-pointer shadow-lg w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#e98585] hover:text-white transition-all duration-300"
 						aria-label="Previous slide"
 					>
-						<Leaf className="w-6 h-6 rotate-[-135deg] text-primary" />
+						<Image
+							src={"/CooCooPlants.png"}
+							alt="btn-coocooplant"
+							width={120}
+							height={50}
+							className="object-cover rotate-[-180deg] "
+						/>
+						{/* <Leaf className="w-6 h-6 rotate-[-135deg] text-primary" /> */}
 					</button>
 				</div>
 
@@ -98,7 +105,14 @@ const HotProduct = () => {
 						className="card2-next bg-white cursor-pointer shadow-lg w-12 h-12 rounded-full flex items-center justify-center hover:bg-[#e98585] hover:text-white transition-all duration-300"
 						aria-label="Next slide"
 					>
-						<Leaf className="w-6 h-6 rotate-[45deg] text-primary" />
+						<Image
+							src={"/CooCooPlants.png"}
+							alt="btn-coocooplant"
+							width={120}
+							height={50}
+							className="object-cover"
+						/>
+						{/* <Leaf className="w-6 h-6 rotate-[45deg] text-primary" /> */}
 					</button>
 				</div>
 			</div>
